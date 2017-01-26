@@ -6,7 +6,7 @@
 	<article>
 		<div class="container-fluid">
 			<div class="jumbotron">
-				<h1>{{ $blog->title }}</h1>
+				<h1>{{ $blog->title }}</h1><a href="{{ action('BlogController@edit', [$blog->id]) }}">Edit</a>
 			</div>
 		</div>
 
