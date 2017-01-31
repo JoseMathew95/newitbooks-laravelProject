@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\blog;
+use App\category;
 
 class BlogController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('admin', ['except' => 'index', 'show']);
+        $this->middleware('admin', ['except' => ['index', 'show']]);
     } 
 
 
@@ -21,7 +22,8 @@ class BlogController extends Controller
 
     public function create()
     {
-    	return view('blog.create');
+        $category = category::pluck('name','id');
+    	return view('blog.create', compact('category'));
     }
 
     public function store(Request $request)
