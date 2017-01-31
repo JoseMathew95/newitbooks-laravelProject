@@ -7,6 +7,12 @@ use App\blog;
 
 class BlogController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('admin', ['except' => 'index', 'show']);
+    } 
+
+
     public function index()
     {
     	$blogs = blog::latest()->get();
