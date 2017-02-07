@@ -12,6 +12,10 @@
 
 		<div class="col-md-12 col-md-offset-2">
 			<p>{{$blog->body}}</p>
+
+			<?php foreach ($blog->category as $key => $category): ?>
+				<p><a href="{{ route('categories.show', $category->slug) }}">{{$category->name}}</a></p>
+			<?php endforeach ?>
 		</div>
 	</article>
 </main>

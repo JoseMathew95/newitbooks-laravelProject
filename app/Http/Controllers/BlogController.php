@@ -29,8 +29,10 @@ class BlogController extends Controller
     public function store(Request $request)
     {
     	$input = $request->all();
-    	Blog::create($input);	
-    	return back();
+    	$blog = Blog::create($input);	
+        $CategoryIds = $request->category_id;
+        $blog->category()->sync($CategoryIds);
+    	return redirect('blog');
     }
 
     public function show($id)
@@ -41,8 +43,9 @@ class BlogController extends Controller
 
     public function edit($id)
     {
+        $category = category::pluck('name','id');
         $blog = Blog::findOrFail($id);
-        return view('blog.edit', compact('blog'));
+        return view('blog.edit', compact('blog', 'category'));
     }
 
     public function update(Request $req, $id)
@@ -50,12 +53,16 @@ class BlogController extends Controller
         $input = $req->all();
         $blog = Blog::findOrFail($id);
         $blog->update($input);
+        $CategoryIds = $req->category_id;
+        $blog->category()->sync($CategoryIds);
         return redirect('/blog');
     }
 
     public function destroy(Request $req, $id)
     {
         $blog = Blog::findOrFail($id);
+        $CategoryIds = $req->category_id;
+        $blog->category()->detach($CategoryIds);
         $blog->delete($req->all());
         return redirect('/blog/bin');
     }
